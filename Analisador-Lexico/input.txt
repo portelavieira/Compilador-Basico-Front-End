@@ -1,7 +1,17 @@
-if (x == 10) {
-    return y + 20;
-} else {
-    while (z != 0) {
-        z = z - 1;
-    }
+/* Teste de Comentario Multlines */
+
+// Teste de Comentario simples
+var and = true && !teste || false;
+
+let numInter = 1000000000 - 55.99;
+
+numInter++;
+numInter -= 10;
+
+if(numFlo >= numInter) {
+    console.Write("Test 'string'");
+} if(numFlo == numInter) {
+    console.Write('Test "string"');
+} esle { // Erro proposital
+    console.Write("Test with invert bar \\ \" \'");
 }
