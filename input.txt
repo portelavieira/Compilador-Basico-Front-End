@@ -1,0 +1,7 @@
+if (x == 10) {
+    return y + 20;
+} else {
+    while (z != 0) {
+        z = z - 1;
+    }
+}
