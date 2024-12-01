@@ -2,6 +2,9 @@
 %standalone
 %line
 %column
+%class scanner
+%unicode
+%cup
 
 // Definições de padrões
 digito       = [0-9]

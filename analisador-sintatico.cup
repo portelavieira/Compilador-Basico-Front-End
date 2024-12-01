@@ -1,0 +1,39 @@
+import java_cup.runtime.*;
+import java.io.*;
+
+parser code {:
+    scanner s;
+    parser(scanner s) { this.s = s; }
+:}
+
+terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN;
+terminal OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_EQ, OP_NEQ;
+terminal DEL_SEMI, DEL_COMMA, DEL_LBRACE, DEL_RBRACE, DEL_LPAREN, DEL_RPAREN;
+terminal IDENT, NUMBER;
+
+non terminal prog;
+non terminal stmt_list, stmt, expr, var_decl;
+
+precedence left OP_ADD, OP_SUB;
+precedence left OP_MUL, OP_DIV;
+
+prog ::= stmt_list;
+
+stmt_list ::= stmt_list stmt
+            | stmt;
+
+stmt ::= var_decl DEL_SEMI
+       | KW_IF DEL_LPAREN expr DEL_RPAREN stmt KW_ELSE stmt
+       | KW_WHILE DEL_LPAREN expr DEL_RPAREN stmt
+       | DEL_LBRACE stmt_list DEL_RBRACE
+       | expr DEL_SEMI;
+
+var_decl ::= IDENT IDENT; // Ex.: int x;
+
+expr ::= expr OP_ADD expr
+       | expr OP_SUB expr
+       | expr OP_MUL expr
+       | expr OP_DIV expr
+       | DEL_LPAREN expr DEL_RPAREN
+       | IDENT
+       | NUMBER;
