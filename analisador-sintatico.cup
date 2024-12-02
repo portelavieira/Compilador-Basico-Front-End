@@ -28,7 +28,7 @@ stmt ::= var_decl DEL_SEMI
        | DEL_LBRACE stmt_list DEL_RBRACE
        | expr DEL_SEMI;
 
-var_decl ::= IDENT IDENT; // Ex.: int x;
+var_decl ::= IDENT IDENT; 
 
 expr ::= expr OP_ADD expr
        | expr OP_SUB expr
