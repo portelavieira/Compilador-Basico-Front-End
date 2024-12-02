@@ -149,6 +149,13 @@ public class parser extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
+  /** Scan to get the next Symbol. */
+  public java_cup.runtime.Symbol scan()
+    throws java.lang.Exception
+    {
+ return s.next_token(); 
+    }
+
 
     scanner s;
     parser(scanner s) { this.s = s; }

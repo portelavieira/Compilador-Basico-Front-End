@@ -6,6 +6,8 @@ parser code {:
     parser(scanner s) { this.s = s; }
 :}
 
+scan with {: return s.next_token(); :};
+
 terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN;
 terminal OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_EQ, OP_NEQ;
 terminal DEL_SEMI, DEL_COMMA, DEL_LBRACE, DEL_RBRACE, DEL_LPAREN, DEL_RPAREN;

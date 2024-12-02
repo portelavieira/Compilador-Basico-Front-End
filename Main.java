@@ -3,30 +3,18 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            scanner scanner = new scanner(reader);  // Scanner gerado pelo JFlex (ajustado para o nome Yylex)
-            parser parser = new parser(scanner);  // Parser gerado pelo CUP
+            // Lê o arquivo de entrada `input.txt`
+            BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
+            scanner scanner = new scanner(reader); // Criação da instância do scanner
+            parser parser = new parser(scanner);  // Passa o scanner para o parser
 
-            System.out.println("Enter expressions (end with semicolon ';'):");
-            System.out.println("Type 'exit' to quit.");
+            System.out.println("Iniciando análise léxica e sintática do arquivo input.txt:");
 
-            while (true) {
-                System.out.print("> ");
-                String input = reader.readLine();
-                if (input == null || input.equalsIgnoreCase("exit")) break;
+            // Executa a análise sintática (que inclui a análise léxica)
+            parser.parse();
 
-                // Reinicia o scanner com a nova entrada
-                scanner.yyreset(new StringReader(input));
-
-                // Realiza o parsing da entrada
-                try {
-                    parser.parse();
-                } catch (Exception e) {
-                    System.err.println("Parsing error: " + e.getMessage());
-                }
-            }
+            System.out.println("Análise concluída.");
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }

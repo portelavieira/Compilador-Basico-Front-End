@@ -3,7 +3,6 @@
 %line
 %column
 %class scanner
-%unicode
 %cup
 
 // Definições de padrões
