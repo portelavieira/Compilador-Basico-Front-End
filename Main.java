@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            Yylex scanner = new Yylex(reader);  // Scanner gerado pelo JFlex (ajustado para o nome Yylex)
+            scanner scanner = new scanner(reader);  // Scanner gerado pelo JFlex (ajustado para o nome Yylex)
             parser parser = new parser(scanner);  // Parser gerado pelo CUP
 
             System.out.println("Enter expressions (end with semicolon ';'):");
