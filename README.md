@@ -11,3 +11,7 @@ Trabalho de Av3 para cadeira de Aspectos Teóricos da Computação
 
 > [!WARNING]
 > Sempre vericificar o caminho em que se está fazendo os comandos. Utilize `cd <caminho-da-pasta-Analisador-Lexico>`
+
+
+## Analisador Sintatico
+java -jar java-cup-11b.jar -parser parser -symbols sym analisador-sintatico.cup
