@@ -8,34 +8,38 @@ parser code {:
 
 scan with {: return s.next_token(); :};
 
+/* Declaração dos terminais, conforme especificado */
 terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN;
-terminal OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_EQ, OP_NEQ;
-terminal DEL_SEMI, DEL_COMMA, DEL_LBRACE, DEL_RBRACE, DEL_LPAREN, DEL_RPAREN;
-terminal IDENT, NUMBER;
+terminal PLUS, MINUS, TIMES, DIV, EQ, NEQ;
+terminal SEMI, COMMA, LBRACE, RBRACE, LPAREN, RPAREN;
+terminal IDENTIFIER, NUMBER;
 
+/* Declaração dos não-terminais */
 non terminal prog;
 non terminal stmt_list, stmt, expr, var_decl;
 
-precedence left OP_ADD, OP_SUB;
-precedence left OP_MUL, OP_DIV;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
 
+/* Produções da gramática */
 prog ::= stmt_list;
 
 stmt_list ::= stmt_list stmt
             | stmt;
 
-stmt ::= var_decl DEL_SEMI
-       | KW_IF DEL_LPAREN expr DEL_RPAREN stmt KW_ELSE stmt
-       | KW_WHILE DEL_LPAREN expr DEL_RPAREN stmt
-       | DEL_LBRACE stmt_list DEL_RBRACE
-       | expr DEL_SEMI;
+stmt ::= var_decl SEMI
+       | KW_IF LPAREN expr RPAREN stmt KW_ELSE stmt
+       | KW_WHILE LPAREN expr RPAREN stmt
+       | LBRACE stmt_list RBRACE
+       | IDENTIFIER EQ expr SEMI
+       | expr SEMI;
 
-var_decl ::= IDENT IDENT; 
+var_decl ::= IDENTIFIER IDENTIFIER; 
 
-expr ::= expr OP_ADD expr
-       | expr OP_SUB expr
-       | expr OP_MUL expr
-       | expr OP_DIV expr
-       | DEL_LPAREN expr DEL_RPAREN
-       | IDENT
+expr ::= expr PLUS expr
+       | expr MINUS expr
+       | expr TIMES expr
+       | expr DIV expr
+       | LPAREN expr RPAREN
+       | IDENTIFIER
        | NUMBER;

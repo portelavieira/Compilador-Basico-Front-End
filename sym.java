@@ -6,26 +6,26 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int IDENT = 18;
+  public static final int TIMES = 8;
+  public static final int PLUS = 6;
+  public static final int RPAREN = 17;
   public static final int KW_IF = 2;
-  public static final int OP_SUB = 7;
-  public static final int DEL_RPAREN = 17;
-  public static final int DEL_RBRACE = 15;
+  public static final int RBRACE = 15;
+  public static final int SEMI = 12;
+  public static final int IDENTIFIER = 18;
+  public static final int LPAREN = 16;
+  public static final int LBRACE = 14;
+  public static final int COMMA = 13;
   public static final int NUMBER = 19;
   public static final int EOF = 0;
   public static final int KW_WHILE = 4;
-  public static final int OP_DIV = 9;
-  public static final int OP_ADD = 6;
+  public static final int DIV = 9;
+  public static final int MINUS = 7;
   public static final int KW_RETURN = 5;
   public static final int error = 1;
-  public static final int DEL_LBRACE = 14;
-  public static final int DEL_LPAREN = 16;
-  public static final int DEL_COMMA = 13;
+  public static final int EQ = 10;
+  public static final int NEQ = 11;
   public static final int KW_ELSE = 3;
-  public static final int OP_NEQ = 11;
-  public static final int OP_MUL = 8;
-  public static final int OP_EQ = 10;
-  public static final int DEL_SEMI = 12;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -33,19 +33,19 @@ public class sym {
   "KW_ELSE",
   "KW_WHILE",
   "KW_RETURN",
-  "OP_ADD",
-  "OP_SUB",
-  "OP_MUL",
-  "OP_DIV",
-  "OP_EQ",
-  "OP_NEQ",
-  "DEL_SEMI",
-  "DEL_COMMA",
-  "DEL_LBRACE",
-  "DEL_RBRACE",
-  "DEL_LPAREN",
-  "DEL_RPAREN",
-  "IDENT",
+  "PLUS",
+  "MINUS",
+  "TIMES",
+  "DIV",
+  "EQ",
+  "NEQ",
+  "SEMI",
+  "COMMA",
+  "LBRACE",
+  "RBRACE",
+  "LPAREN",
+  "RPAREN",
+  "IDENTIFIER",
   "NUMBER"
   };
 }
