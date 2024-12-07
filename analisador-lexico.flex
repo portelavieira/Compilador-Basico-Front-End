@@ -1,67 +1,46 @@
+import java_cup.runtime.*;
+
 %%
-%standalone
-%line
-%column
+
 %class scanner
+%unicode
 %cup
 
-// Definições de padrões
-digito       = [0-9]
-letra        = [A-Za-z]
-numero       = {digito}+(\.{digito}+)? 
-ident        = {letra}({letra}|{digito})*
-
-KW_IF        = if
-KW_ELSE      = else
-KW_WHILE     = while
-KW_RETURN    = return
-
-OP_ADD       = [+]
-OP_SUB       = [-]
-OP_MUL       = [*]
-OP_DIV       = [/]
-OP_EQ        = [==]
-OP_NEQ       = [!=]
-
-DEL_SEMI     = [;]
-DEL_COMMA    = [,]
-DEL_LBRACE   = [{]
-DEL_RBRACE   = [}]
-DEL_LPAREN   = [(]
-DEL_RPAREN   = [)]
-
-SINGLE_COMMENT = [/] [/] .*
-MULTI_COMMENT  = [/] [*] .*? [*] [/]
+WHITESPACE = [ \t\n\r]+
+DIGIT = [0-9]
+LETTER = [A-Za-z]
+NUMBER = {DIGIT}+(\.{DIGIT}+)?
+IDENTIFIER = {LETTER}({LETTER}|{DIGIT})*
+KW_IF = "if"
+KW_ELSE = "else"
+KW_WHILE = "while"
+KW_RETURN = "return"
+SINGLE_COMMENT = "//".*
+MULTI_COMMENT = "/\\*([^*]|\\*+[^*/])*\\*+/"
 
 %%
-// Tokens
-{KW_IF}          { System.out.println("<KW_IF>"); }
-{KW_ELSE}        { System.out.println("<KW_ELSE>"); }
-{KW_WHILE}       { System.out.println("<KW_WHILE>"); }
-{KW_RETURN}      { System.out.println("<KW_RETURN>"); }
 
-{ident}          { System.out.println("<ident: " + yytext() + ">"); }
-{numero}         { System.out.println("<numero: " + yytext() + ">"); }
-
-{OP_ADD}         { System.out.println("<OP_ADD>"); }
-{OP_SUB}         { System.out.println("<OP_SUB>"); }
-{OP_MUL}         { System.out.println("<OP_MUL>"); }
-{OP_DIV}         { System.out.println("<OP_DIV>"); }
-{OP_EQ}          { System.out.println("<OP_EQ>"); }
-{OP_NEQ}         { System.out.println("<OP_NEQ>"); }
-
-{DEL_SEMI}       { System.out.println("<DEL_SEMI>"); }
-{DEL_COMMA}      { System.out.println("<DEL_COMMA>"); }
-{DEL_LBRACE}     { System.out.println("<DEL_LBRACE>"); }
-{DEL_RBRACE}     { System.out.println("<DEL_RBRACE>"); }
-{DEL_LPAREN}     { System.out.println("<DEL_LPAREN>"); }
-{DEL_RPAREN}     { System.out.println("<DEL_RPAREN>"); }
-
-{SINGLE_COMMENT} { System.out.println("<SINGLE_COMMENT>"); }
-{MULTI_COMMENT}  { System.out.println("<MULTI_COMMENT>"); }
-
-// Ignorar espaços e novas linhas
-[ \t\n\r]+       { /* Ignorar */ }
-
-// Qualquer outro caractere
-.                { System.out.println("<ERRO: " + yytext() + ">"); }
+<YYINITIAL> {
+    {WHITESPACE}          { /* Ignorar espaços em branco */ }
+    ";"                   { return new Symbol(sym.SEMI); }
+    ","                   { return new Symbol(sym.COMMA); }
+    "+"                   { return new Symbol(sym.PLUS); }
+    "-"                   { return new Symbol(sym.MINUS); }
+    "*"                   { return new Symbol(sym.TIMES); }
+    "/"                   { return new Symbol(sym.DIV); }
+    "=="                  { return new Symbol(sym.EQ); }
+    "!="                  { return new Symbol(sym.NEQ); }
+    "{"                   { return new Symbol(sym.LBRACE); }
+    "}"                   { return new Symbol(sym.RBRACE); }
+    "("                   { return new Symbol(sym.LPAREN); }
+    ")"                   { return new Symbol(sym.RPAREN); }
+    {KW_IF}               { return new Symbol(sym.KW_IF); }
+    {KW_ELSE}             { return new Symbol(sym.KW_ELSE); }
+    {KW_WHILE}            { return new Symbol(sym.KW_WHILE); }
+    {KW_RETURN}           { return new Symbol(sym.KW_RETURN); }
+    {IDENTIFIER}          { return new Symbol(sym.IDENTIFIER, yytext()); }
+    {NUMBER}              { return new Symbol(sym.NUMBER, Double.parseDouble(yytext())); }
+    {SINGLE_COMMENT}      { /* Ignorar comentário de linha única */ }
+    {MULTI_COMMENT}       { /* Ignorar comentário de múltiplas linhas */ }
+    .                     { System.err.println("Illegal character: " + yytext()); }
+}
