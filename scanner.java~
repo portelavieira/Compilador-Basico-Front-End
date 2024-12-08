@@ -298,7 +298,6 @@ class Scanner implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
-    import java_cup.runtime.Symbol;
     import sym;
 
 

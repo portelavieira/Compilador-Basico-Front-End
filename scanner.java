@@ -297,9 +297,6 @@ class Scanner implements java_cup.runtime.Scanner {
   /** Whether the user-EOF-code has already been executed. */
   private boolean zzEOFDone;
 
-  /* user code: */
-    import sym;
-
 
   /**
    * Creates a new scanner

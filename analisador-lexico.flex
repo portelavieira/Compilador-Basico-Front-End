@@ -4,10 +4,6 @@
 %unicode
 %cup
 
-%{
-    import sym;
-%}
-
 digito       = [0-9]
 letra        = [A-Za-z]
 numero       = {digito}+(\.{digito}+)? 

@@ -1,47 +1,36 @@
-import java.io.*;
-import java_cup.runtime.Symbol;
+import java.io.StringReader;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            // Define o caminho do arquivo diretamente no código
-            String filePath = "input.txt"; // Altere o caminho para o arquivo desejado
-            BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            
-            // Cria o scanner que vai fazer a análise léxica
-            Scanner scanner = new Scanner(reader);
-            
-            // Cria o parser que vai fazer a análise sintática
-            parser parser = new parser(scanner);
-
-            System.out.println("Analisando o arquivo: " + filePath);
-
-            // Lê e processa o arquivo linha por linha
-            String input;
-            while ((input = reader.readLine()) != null) {
-                // Faz o reset do scanner para aceitar a nova entrada
-                scanner.yyreset(new StringReader(input));
-
-                try {
-                    // Faz o parsing do código
-                    Symbol result = parser.parse();
-
-                    // Exibe o resultado da análise sintática
-                    System.out.println("Parsing successful! Result: " + result.value);
-
-                } catch (Exception e) {
-                    System.out.println("Parsing failed: " + e.getMessage());
-                    e.printStackTrace();
+        // Exemplo de entrada a ser analisada
+        String inputCode = """
+            int x;
+            if (x + 5) {
+                while (x - 2) {
+                    x = x / 3;
                 }
             }
+            """;
 
-            // Fecha o BufferedReader
-            reader.close();
-
-        } catch (IOException e) {
-            System.out.println("Erro ao abrir ou ler o arquivo: " + e.getMessage());
-            e.printStackTrace();
+        try {
+            // Criação de um Scanner para analisar o código de entrada
+            Scanner scanner = new Scanner(new StringReader(inputCode));
+            
+            // Criação do analisador sintático com o Scanner
+            parser parser = new parser(scanner);
+            
+            // Início do processo de análise sintática
+            @SuppressWarnings("unchecked")
+            List<String> result = (List<String>) parser.parse().value;
+            
+            // Exibição dos resultados
+            System.out.println("Resultado da Análise Sintática:");
+            for (String line : result) {
+                System.out.println(line);
+            }
         } catch (Exception e) {
+            System.err.println("Erro durante a análise sintática: " + e.getMessage());
             e.printStackTrace();
         }
     }

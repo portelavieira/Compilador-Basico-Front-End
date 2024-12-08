@@ -2,7 +2,6 @@ import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
 
-
 parser code {:
     Scanner s;
     parser(Scanner s) { this.s = s; }
@@ -10,19 +9,15 @@ parser code {:
 
 scan with {: return s.next_token(); :};
 
-// Declaração de terminais
 terminal SEMI, PLUS, MINUS, TIMES, DIV, EQ, NEQ, LBRACE, RBRACE, LPAREN, RPAREN;
 terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, IDENTIFIER, NUMBER;
 
-// Declaração de não-terminais
 non terminal List<String> stmt_list, stmt, expr;
 non terminal String type;
 
-// Precedências
 precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 
-// Símbolo inicial
 start with stmt_list;
 
 stmt_list ::= stmt_list:s stmt:e SEMI
