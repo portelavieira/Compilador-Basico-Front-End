@@ -1,19 +1,18 @@
-import java.io.*;
+import java.io.FileReader;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            // Lê o arquivo de entrada `input.txt`
-            BufferedReader reader = new BufferedReader(new FileReader("input.txt"));
-            scanner scanner = new scanner(reader); // Criação da instância do scanner
-            parser parser = new parser(scanner);  // Passa o scanner para o parser
+            // Configurar o scanner e o parser
+            Scanner scanner = new Scanner(new FileReader("input.txt")); // Substitua por seu arquivo de entrada
+            parser parser = new parser(scanner);
 
-            System.out.println("Iniciando análise léxica e sintática do arquivo input.txt:");
+            // Parsear e obter a árvore sintática
+            SyntaxTreeNode syntaxTree = (SyntaxTreeNode) parser.parse().value;
 
-            // Executa a análise sintática (que inclui a análise léxica)
-            parser.parse();
-
-            System.out.println("Análise concluída.");
+            // Imprimir a árvore sintática
+            System.out.println("Árvore Sintática:");
+            syntaxTree.print("");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,45 +1,76 @@
 import java_cup.runtime.*;
-import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+// Classe para representar nós da árvore sintática
+class SyntaxTreeNode {
+       String value;
+       List<SyntaxTreeNode> children = new ArrayList<>();
+
+       SyntaxTreeNode(String value) {
+              this.value = value;
+       }
+
+       void addChild(SyntaxTreeNode child) {
+              children.add(child);
+       }
+
+       void print(String prefix) {
+              System.out.println(prefix + value);
+              for (SyntaxTreeNode child : children) {
+              child.print(prefix + "  ");
+              }
+       }
+}
 
 parser code {:
-    scanner s;
-    parser(scanner s) { this.s = s; }
+       Scanner s;
+       parser(Scanner s) { this.s = s; }
 :}
 
 scan with {: return s.next_token(); :};
 
-/* Declaração dos terminais, conforme especificado */
-terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN;
-terminal PLUS, MINUS, TIMES, DIV, EQ, NEQ;
-terminal SEMI, COMMA, LBRACE, RBRACE, LPAREN, RPAREN;
-terminal IDENTIFIER, NUMBER;
+terminal SEMI, PLUS, MINUS, TIMES, DIV, EQ, NEQ, LBRACE, RBRACE, LPAREN, RPAREN;
+terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, IDENTIFIER, NUMBER, KW_INT, KW_FLOAT;
 
-/* Declaração dos não-terminais */
-non terminal prog;
-non terminal stmt_list, stmt, expr, var_decl;
+non terminal SyntaxTreeNode stmt_list, stmt, expr;
+non terminal String type;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 
-/* Produções da gramática */
-prog ::= stmt_list;
+// Gramática para listas de comandos
+stmt_list ::= stmt_list stmt:e SEMI
+              {: $$.addChild($e); :}
+              | stmt:e SEMI
+              {: $$ = new SyntaxTreeNode("Statement List"); $$.addChild($e); :};
 
-stmt_list ::= stmt_list stmt
-            | stmt;
+// Definições de comandos
+stmt ::= type:typ IDENTIFIER:id
+              {: $$ = new SyntaxTreeNode("Declaração de variável: " + $typ + " " + $id); :}
+       | KW_IF LPAREN expr:cond RPAREN stmt:if_stmt KW_ELSE stmt:else_stmt
+              {: $$ = new SyntaxTreeNode("IF/ELSE Statement"); $$.addChild($cond); $$.addChild($if_stmt); $$.addChild($else_stmt); :}
+       | KW_WHILE LPAREN expr:cond RPAREN stmt:body
+              {: $$ = new SyntaxTreeNode("WHILE Loop"); $$.addChild($cond); $$.addChild($body); :}
+       | LBRACE stmt_list:block RBRACE
+              {: $$ = new SyntaxTreeNode("Bloco"); $$.addChild($block); :};
 
-stmt ::= var_decl SEMI
-       | KW_IF LPAREN expr RPAREN stmt KW_ELSE stmt
-       | KW_WHILE LPAREN expr RPAREN stmt
-       | LBRACE stmt_list RBRACE
-       | IDENTIFIER EQ expr SEMI
-       | expr SEMI;
+// Expressões aritméticas
+expr ::= expr:e1 PLUS expr:e2
+              {: $$ = new SyntaxTreeNode("+"); $$.addChild($e1); $$.addChild($e2); :}
+       | expr:e1 MINUS expr:e2
+              {: $$ = new SyntaxTreeNode("-"); $$.addChild($e1); $$.addChild($e2); :}
+       | expr:e1 TIMES expr:e2
+              {: $$ = new SyntaxTreeNode("*"); $$.addChild($e1); $$.addChild($e2); :}
+       | expr:e1 DIV expr:e2
+              {: $$ = new SyntaxTreeNode("/"); $$.addChild($e1); $$.addChild($e2); :}
+       | LPAREN expr:e RPAREN
+              {: $$ = $e; :}
+       | NUMBER:n
+              {: $$ = new SyntaxTreeNode("Número: " + n); :}
+       | IDENTIFIER:id
+              {: $$ = new SyntaxTreeNode("Identificador: " + id); :};
 
-var_decl ::= IDENTIFIER IDENTIFIER; 
-
-expr ::= expr PLUS expr
-       | expr MINUS expr
-       | expr TIMES expr
-       | expr DIV expr
-       | LPAREN expr RPAREN
-       | IDENTIFIER
-       | NUMBER;
+// Tipos de variáveis
+type ::= KW_INT {: $$ = "int"; :}
+       | KW_FLOAT {: $$ = "float"; :};
