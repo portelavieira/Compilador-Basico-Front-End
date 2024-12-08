@@ -5,7 +5,7 @@ Trabalho de Av3 para cadeira de Aspectos Teóricos da Computação
 
 **Comandos de teste:**
 - jflex analisador-lexico.flex (Para criar o arquivo .java)
-- java -jar jflex-full-1.9.1.jar analisador-lexico.flex (Para criar o arquivo .java~)
+- java -jar .\lib\jflex-full-1.9.1.jar analisador-lexico.flex (Para criar o arquivo .java~)
 - javac scanner.java (Para indicar o arquivo .java de uso)
 - java scanner input.txt (Iniciar o arquivo .java com os inputs do txt)
 
@@ -14,4 +14,4 @@ Trabalho de Av3 para cadeira de Aspectos Teóricos da Computação
 
 
 ## Analisador Sintatico
-java -jar java-cup-11b.jar -parser parser -symbols sym analisador-sintatico.cup
+java -jar .\lib\java-cup-11b.jar -parser parser -symbols sym analisador-sintatico.cup
