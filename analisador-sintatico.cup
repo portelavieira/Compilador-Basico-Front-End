@@ -1,76 +1,110 @@
-import java_cup.runtime.*;
-import java.util.ArrayList;
+import java.util.Stack;
 import java.util.List;
+import java.util.ArrayList;
 
-// Classe para representar nós da árvore sintática
-class SyntaxTreeNode {
-       String value;
-       List<SyntaxTreeNode> children = new ArrayList<>();
-
-       SyntaxTreeNode(String value) {
-              this.value = value;
-       }
-
-       void addChild(SyntaxTreeNode child) {
-              children.add(child);
-       }
-
-       void print(String prefix) {
-              System.out.println(prefix + value);
-              for (SyntaxTreeNode child : children) {
-              child.print(prefix + "  ");
-              }
-       }
-}
 
 parser code {:
-       Scanner s;
-       parser(Scanner s) { this.s = s; }
+    Scanner s;
+    parser(Scanner s) { this.s = s; }
 :}
 
 scan with {: return s.next_token(); :};
 
+// Declaração de terminais
 terminal SEMI, PLUS, MINUS, TIMES, DIV, EQ, NEQ, LBRACE, RBRACE, LPAREN, RPAREN;
-terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, IDENTIFIER, NUMBER, KW_INT, KW_FLOAT;
+terminal KW_IF, KW_ELSE, KW_WHILE, KW_RETURN, IDENTIFIER, NUMBER;
 
-non terminal SyntaxTreeNode stmt_list, stmt, expr;
+// Declaração de não-terminais
+non terminal List<String> stmt_list, stmt, expr;
 non terminal String type;
 
+// Precedências
 precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 
-// Gramática para listas de comandos
-stmt_list ::= stmt_list stmt:e SEMI
-              {: $$.addChild($e); :}
-              | stmt:e SEMI
-              {: $$ = new SyntaxTreeNode("Statement List"); $$.addChild($e); :};
+// Símbolo inicial
+start with stmt_list;
 
-// Definições de comandos
+stmt_list ::= stmt_list:s stmt:e SEMI
+               {: $s.addAll($e); $$ = $s; :}
+            | stmt:e SEMI
+               {: $$ = new ArrayList<>(); $$.addAll($e); :};
+
 stmt ::= type:typ IDENTIFIER:id
-              {: $$ = new SyntaxTreeNode("Declaração de variável: " + $typ + " " + $id); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("Declaração de variável: " + $typ + " " + id.value);
+              $$ = temp;
+           :}
        | KW_IF LPAREN expr:cond RPAREN stmt:if_stmt KW_ELSE stmt:else_stmt
-              {: $$ = new SyntaxTreeNode("IF/ELSE Statement"); $$.addChild($cond); $$.addChild($if_stmt); $$.addChild($else_stmt); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("IF/ELSE Statement");
+              temp.addAll($cond);
+              temp.addAll($if_stmt);
+              temp.addAll($else_stmt);
+              $$ = temp;
+           :}
        | KW_WHILE LPAREN expr:cond RPAREN stmt:body
-              {: $$ = new SyntaxTreeNode("WHILE Loop"); $$.addChild($cond); $$.addChild($body); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("WHILE Loop");
+              temp.addAll($cond);
+              temp.addAll($body);
+              $$ = temp;
+           :}
        | LBRACE stmt_list:block RBRACE
-              {: $$ = new SyntaxTreeNode("Bloco"); $$.addChild($block); :};
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("Bloco");
+              temp.addAll($block);
+              $$ = temp;
+           :};
 
-// Expressões aritméticas
 expr ::= expr:e1 PLUS expr:e2
-              {: $$ = new SyntaxTreeNode("+"); $$.addChild($e1); $$.addChild($e2); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("+");
+              temp.addAll($e1);
+              temp.addAll($e2);
+              $$ = temp;
+           :}
        | expr:e1 MINUS expr:e2
-              {: $$ = new SyntaxTreeNode("-"); $$.addChild($e1); $$.addChild($e2); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("-");
+              temp.addAll($e1);
+              temp.addAll($e2);
+              $$ = temp;
+           :}
        | expr:e1 TIMES expr:e2
-              {: $$ = new SyntaxTreeNode("*"); $$.addChild($e1); $$.addChild($e2); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("*");
+              temp.addAll($e1);
+              temp.addAll($e2);
+              $$ = temp;
+           :}
        | expr:e1 DIV expr:e2
-              {: $$ = new SyntaxTreeNode("/"); $$.addChild($e1); $$.addChild($e2); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("/");
+              temp.addAll($e1);
+              temp.addAll($e2);
+              $$ = temp;
+           :}
        | LPAREN expr:e RPAREN
-              {: $$ = $e; :}
+           {: $$ = $e; :}
        | NUMBER:n
-              {: $$ = new SyntaxTreeNode("Número: " + n); :}
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("Número: " + n.value);
+              $$ = temp;
+           :}
        | IDENTIFIER:id
-              {: $$ = new SyntaxTreeNode("Identificador: " + id); :};
+           {: 
+              List<String> temp = new ArrayList<>();
+              temp.add("Identificador: " + id.value);
+              $$ = temp;
+           :};
 
-// Tipos de variáveis
-type ::= KW_INT {: $$ = "int"; :}
-       | KW_FLOAT {: $$ = "float"; :};
