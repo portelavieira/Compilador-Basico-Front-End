@@ -675,87 +675,87 @@ class Scanner implements java_cup.runtime.Scanner {
           // fall through
           case 21: break;
           case 3:
-            { return new Symbol(sym.NEQ);
+            { return new java_cup.runtime.Symbol(sym.NEQ);
             }
           // fall through
           case 22: break;
           case 4:
-            { return new Symbol(sym.LPAREN);
+            { return new java_cup.runtime.Symbol(sym.LPAREN);
             }
           // fall through
           case 23: break;
           case 5:
-            { return new Symbol(sym.RPAREN);
+            { return new java_cup.runtime.Symbol(sym.RPAREN);
             }
           // fall through
           case 24: break;
           case 6:
-            { return new Symbol(sym.TIMES);
+            { return new java_cup.runtime.Symbol(sym.TIMES);
             }
           // fall through
           case 25: break;
           case 7:
-            { return new Symbol(sym.PLUS);
+            { return new java_cup.runtime.Symbol(sym.PLUS);
             }
           // fall through
           case 26: break;
           case 8:
-            { return new Symbol(sym.MINUS);
+            { return new java_cup.runtime.Symbol(sym.MINUS);
             }
           // fall through
           case 27: break;
           case 9:
-            { return new Symbol(sym.DIV);
+            { return new java_cup.runtime.Symbol(sym.DIV);
             }
           // fall through
           case 28: break;
           case 10:
-            { return new Symbol(sym.NUMBER, Double.parseDouble(yytext()));
+            { return new java_cup.runtime.Symbol(sym.NUMBER, Double.parseDouble(yytext()));
             }
           // fall through
           case 29: break;
           case 11:
-            { return new Symbol(sym.SEMI);
+            { return new java_cup.runtime.Symbol(sym.SEMI);
             }
           // fall through
           case 30: break;
           case 12:
-            { return new Symbol(sym.EQ);
+            { return new java_cup.runtime.Symbol(sym.EQ);
             }
           // fall through
           case 31: break;
           case 13:
-            { return new Symbol(sym.IDENTIFIER, yytext());
+            { return new java_cup.runtime.Symbol(sym.IDENTIFIER, yytext());
             }
           // fall through
           case 32: break;
           case 14:
-            { return new Symbol(sym.LBRACE);
+            { return new java_cup.runtime.Symbol(sym.LBRACE);
             }
           // fall through
           case 33: break;
           case 15:
-            { return new Symbol(sym.RBRACE);
+            { return new java_cup.runtime.Symbol(sym.RBRACE);
             }
           // fall through
           case 34: break;
           case 16:
-            { return new Symbol(sym.KW_IF);
+            { return new java_cup.runtime.Symbol(sym.KW_IF);
             }
           // fall through
           case 35: break;
           case 17:
-            { return new Symbol(sym.KW_ELSE);
+            { return new java_cup.runtime.Symbol(sym.KW_ELSE);
             }
           // fall through
           case 36: break;
           case 18:
-            { return new Symbol(sym.KW_WHILE);
+            { return new java_cup.runtime.Symbol(sym.KW_WHILE);
             }
           // fall through
           case 37: break;
           case 19:
-            { return new Symbol(sym.KW_RETURN);
+            { return new java_cup.runtime.Symbol(sym.KW_RETURN);
             }
           // fall through
           case 38: break;

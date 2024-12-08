@@ -144,6 +144,18 @@ public class parser extends java_cup.runtime.lr_parser {
     Scanner s;
     parser(Scanner s) { this.s = s; }
 
+    // Função auxiliar para simplificar a criação da árvore
+    List<String> createNode(String label, List<String>... children) {
+        List<String> node = new ArrayList<>();
+        node.add(label);
+        for (List<String> child : children) {
+            if (child != null) {
+                node.addAll(child);
+            }
+        }
+        return node;
+    }
+
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
@@ -193,7 +205,7 @@ class CUP$parser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		List<String> e = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 $s.addAll($e); $$ = $s; 
+		 $$ = createNode("stmt_list", $s, $e); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt_list",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -205,7 +217,7 @@ class CUP$parser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		List<String> e = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 $$ = new ArrayList<>(); $$.addAll($e); 
+		 $$ = createNode("stmt_list", $e); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt_list",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -220,11 +232,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("Declaração de variável: " + $typ + " " + id.value);
-              $$ = temp;
-           
+		 $$ = createNode("Declaração de variável: " + $typ + " " + id.value); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -242,14 +250,7 @@ class CUP$parser$actions {
 		int else_stmtleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int else_stmtright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> else_stmt = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("IF/ELSE Statement");
-              temp.addAll($cond);
-              temp.addAll($if_stmt);
-              temp.addAll($else_stmt);
-              $$ = temp;
-           
+		 $$ = createNode("IF/ELSE Statement", $cond, $if_stmt, $else_stmt); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -264,13 +265,7 @@ class CUP$parser$actions {
 		int bodyleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> body = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("WHILE Loop");
-              temp.addAll($cond);
-              temp.addAll($body);
-              $$ = temp;
-           
+		 $$ = createNode("WHILE Loop", $cond, $body); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -282,12 +277,7 @@ class CUP$parser$actions {
 		int blockleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int blockright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		List<String> block = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("Bloco");
-              temp.addAll($block);
-              $$ = temp;
-           
+		 $$ = createNode("Bloco", $block); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("stmt",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -302,13 +292,7 @@ class CUP$parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> e2 = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("+");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           
+		 $$ = createNode("+", $e1, $e2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -323,13 +307,7 @@ class CUP$parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> e2 = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("-");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           
+		 $$ = createNode("-", $e1, $e2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -344,13 +322,7 @@ class CUP$parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> e2 = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("*");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           
+		 $$ = createNode("*", $e1, $e2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -365,13 +337,7 @@ class CUP$parser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		List<String> e2 = (List<String>)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("/");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           
+		 $$ = createNode("/", $e1, $e2); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -395,11 +361,7 @@ class CUP$parser$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object n = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("Número: " + n.value);
-              $$ = temp;
-           
+		 $$ = createNode("Número: " + n.value); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -411,11 +373,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-              List<String> temp = new ArrayList<>();
-              temp.add("Identificador: " + id.value);
-              $$ = temp;
-           
+		 $$ = createNode("Identificador: " + id.value); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

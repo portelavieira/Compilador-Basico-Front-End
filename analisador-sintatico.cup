@@ -5,6 +5,17 @@ import java.util.ArrayList;
 parser code {:
     Scanner s;
     parser(Scanner s) { this.s = s; }
+
+    List<String> createNode(String label, List<String>... children) {
+        List<String> node = new ArrayList<>();
+        node.add(label);
+        for (List<String> child : children) {
+            if (child != null) {
+                node.addAll(child);
+            }
+        }
+        return node;
+    }
 :}
 
 scan with {: return s.next_token(); :};
@@ -21,85 +32,30 @@ precedence left TIMES, DIV;
 start with stmt_list;
 
 stmt_list ::= stmt_list:s stmt:e SEMI
-               {: $s.addAll($e); $$ = $s; :}
+               {: $$ = createNode("stmt_list", $s, $e); :}
             | stmt:e SEMI
-               {: $$ = new ArrayList<>(); $$.addAll($e); :};
+               {: $$ = createNode("stmt_list", $e); :};
 
 stmt ::= type:typ IDENTIFIER:id
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("Declaração de variável: " + $typ + " " + id.value);
-              $$ = temp;
-           :}
+           {: $$ = createNode("Declaração de variável: " + $typ + " " + id.value); :}
        | KW_IF LPAREN expr:cond RPAREN stmt:if_stmt KW_ELSE stmt:else_stmt
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("IF/ELSE Statement");
-              temp.addAll($cond);
-              temp.addAll($if_stmt);
-              temp.addAll($else_stmt);
-              $$ = temp;
-           :}
+           {: $$ = createNode("IF/ELSE Statement", $cond, $if_stmt, $else_stmt); :}
        | KW_WHILE LPAREN expr:cond RPAREN stmt:body
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("WHILE Loop");
-              temp.addAll($cond);
-              temp.addAll($body);
-              $$ = temp;
-           :}
+           {: $$ = createNode("WHILE Loop", $cond, $body); :}
        | LBRACE stmt_list:block RBRACE
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("Bloco");
-              temp.addAll($block);
-              $$ = temp;
-           :};
+           {: $$ = createNode("Bloco", $block); :};
 
 expr ::= expr:e1 PLUS expr:e2
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("+");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           :}
+           {: $$ = createNode("+", $e1, $e2); :}
        | expr:e1 MINUS expr:e2
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("-");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           :}
+           {: $$ = createNode("-", $e1, $e2); :}
        | expr:e1 TIMES expr:e2
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("*");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           :}
+           {: $$ = createNode("*", $e1, $e2); :}
        | expr:e1 DIV expr:e2
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("/");
-              temp.addAll($e1);
-              temp.addAll($e2);
-              $$ = temp;
-           :}
+           {: $$ = createNode("/", $e1, $e2); :}
        | LPAREN expr:e RPAREN
            {: $$ = $e; :}
        | NUMBER:n
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("Número: " + n.value);
-              $$ = temp;
-           :}
+           {: $$ = createNode("Número: " + n.value); :}
        | IDENTIFIER:id
-           {: 
-              List<String> temp = new ArrayList<>();
-              temp.add("Identificador: " + id.value);
-              $$ = temp;
-           :};
-
+           {: $$ = createNode("Identificador: " + id.value); :};
