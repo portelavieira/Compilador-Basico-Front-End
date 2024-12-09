@@ -7,24 +7,28 @@
 public class sym {
   /* terminals */
   public static final int TIMES = 5;
+  public static final int LT = 14;
   public static final int PLUS = 3;
-  public static final int KW_IF = 13;
-  public static final int RBRACE = 10;
-  public static final int RPAREN = 12;
+  public static final int KW_IF = 15;
+  public static final int RBRACE = 8;
+  public static final int RPAREN = 10;
   public static final int SEMI = 2;
-  public static final int IDENTIFIER = 17;
-  public static final int LPAREN = 11;
-  public static final int LBRACE = 9;
-  public static final int NUMBER = 18;
+  public static final int IDENTIFIER = 21;
+  public static final int LPAREN = 9;
+  public static final int GT = 13;
+  public static final int LBRACE = 7;
+  public static final int NUMBER = 22;
   public static final int EOF = 0;
-  public static final int KW_WHILE = 15;
+  public static final int KW_WHILE = 17;
   public static final int DIV = 6;
   public static final int MINUS = 4;
-  public static final int KW_RETURN = 16;
   public static final int error = 1;
-  public static final int EQ = 7;
-  public static final int NEQ = 8;
-  public static final int KW_ELSE = 14;
+  public static final int EQ = 11;
+  public static final int NEQ = 12;
+  public static final int KW_STRING = 20;
+  public static final int KW_ELSE = 16;
+  public static final int KW_FLOAT = 19;
+  public static final int KW_INT = 18;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -33,16 +37,20 @@ public class sym {
   "MINUS",
   "TIMES",
   "DIV",
-  "EQ",
-  "NEQ",
   "LBRACE",
   "RBRACE",
   "LPAREN",
   "RPAREN",
+  "EQ",
+  "NEQ",
+  "GT",
+  "LT",
   "KW_IF",
   "KW_ELSE",
   "KW_WHILE",
-  "KW_RETURN",
+  "KW_INT",
+  "KW_FLOAT",
+  "KW_STRING",
   "IDENTIFIER",
   "NUMBER"
   };
